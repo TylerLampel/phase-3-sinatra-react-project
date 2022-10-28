@@ -1,3 +1,3 @@
-class List < ActiveRecord::Base
-    belongs_to :list
+class Item < ActiveRecord::Base
+    belongs_to :user
 end
