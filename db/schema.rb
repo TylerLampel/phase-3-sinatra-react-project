@@ -12,17 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2022_10_30_000407) do
 
-  create_table "items", force: :cascade do |t|
-    t.string "task"
-    t.string "importance"
-    t.boolean "completed"
-    t.integer "list_id"
-  end
-
   create_table "lists", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name"
+    t.boolean "completed"
+    t.integer "list_id"
   end
 
 end

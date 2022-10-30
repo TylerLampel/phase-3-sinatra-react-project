@@ -6,28 +6,38 @@ class ApplicationController < Sinatra::Base
     ["Good luck with your project!"].to_json
   end
 
-  post "/items" do
-    item = Item.create(task: params[:task],
+  get "/lists" do
+    lists = List.all
+    lists.to_json
+  end
+
+  post "/lists" do
+    list = List.create(name: params[:name])
+    list.to_json
+  end
+
+  post "/tasks" do
+    task = Task.create(task: params[:task],
       importance: params[:importance],
       list_id: params[:list_id])
-    item.to_json(include: { list: {only: [:list]} })
+    task.to_json(include: { list: {only: [:list]} })
   end
 
-  get "/items" do
-    items = Item.all.order(:list_id)
-    items.to_json(include: {list: {only: [:list]} })
+  get "/tasks" do
+    tasks = Task.all.order(:list_id)
+    tasks.to_json(include: {list: {only: [:list]} })
   end
 
-  patch "/items/:id" do
-    item = Item.find(params[:id])
-    item.update(task: params[:task])
-    item.to_json(include: { list: {only: [:list]} })
+  patch "/tasks/:id" do
+    task = Task.find(params[:id])
+    task.update(task: params[:task])
+    task.to_json(include: { list: {only: [:list]} })
   end
 
-  delete "/items/:id" do
-    item = Item.find(params[:id])
-    item.destroy
-    item.to_json
+  delete "/tasks/:id" do
+    task = Task.find(params[:id])
+    task.destroy
+    task.to_json
   end
 
 end
