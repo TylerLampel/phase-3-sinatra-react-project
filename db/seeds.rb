@@ -1,11 +1,11 @@
 puts "🌱 Seeding spices..."
 
-User.create({
-    username: "Tyler"
+List.create({
+    name: "ToDo"
 })
 
 Item.create({
-    task: "Do dishes"
+    task: "Do dishes",
     completed: false
 })
 
