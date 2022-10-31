@@ -11,6 +11,12 @@ class ApplicationController < Sinatra::Base
     list.to_json
   end
 
+  delete "/lists/:id" do
+    list = List.find(params[:id])
+    list.destroy
+    list.to_json
+  end
+
 
 
   get "/tasks" do
@@ -28,7 +34,7 @@ class ApplicationController < Sinatra::Base
   patch "/tasks/:id" do
     task = Task.find(params[:id])
     task.update(task: params[:task])
-    task.to_json(include: { list: {only: [:list]} })
+    task.to_json
   end
 
   delete "/tasks/:id" do
