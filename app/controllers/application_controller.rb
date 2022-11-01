@@ -3,12 +3,18 @@ class ApplicationController < Sinatra::Base
 
   get "/lists" do
     lists = List.all
-    lists.to_json
+    lists.to_json(include: :tasks)
   end
 
   post "/lists" do
     list = List.create(name: params[:name])
     list.to_json
+  end
+
+  post "/tasks" do 
+  # grab url and post to list in params (list_id: params[:list_id])
+    task = Task.create(name: params[:name],
+    completed: params[:completed])
   end
 
   delete "/lists/:id" do
@@ -38,7 +44,7 @@ class ApplicationController < Sinatra::Base
     task.to_json
   end
 
-  patch "/tasks/:id" do
+  patch "/lists/:id" do
     task = Task.find(params[:id])
     task.update(task: params[:task])
     task.to_json
