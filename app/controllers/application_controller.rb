@@ -3,7 +3,7 @@ class ApplicationController < Sinatra::Base
 
   get "/lists" do
     lists = List.all
-    lists.to_json(include: :tasks)
+    lists.to_json
   end
 
   post "/lists" do
@@ -17,15 +17,22 @@ class ApplicationController < Sinatra::Base
     list.to_json
   end
 
+  delete "/tasks/:id" do
+    task = Task.find(params[:id])
+    task.destroy
+    task.to_json
+  end
 
 
-  get "/tasks" do
+
+  get "/lists/:id/tasks" do
+    list = List.find(params[:id])
     tasks = Task.all
     tasks.to_json
   end
 
   post "/tasks/:id" do
-    list = List.find_by_id(params[:id])
+    list = List.find(params[:id])
     task = Task.create(name: params[:name],
       list_id: params[:list_id])
     task.to_json
@@ -37,10 +44,6 @@ class ApplicationController < Sinatra::Base
     task.to_json
   end
 
-  delete "/tasks/:id" do
-    task = Task.find(params[:id])
-    task.destroy
-    task.to_json
-  end
+  
 
 end
