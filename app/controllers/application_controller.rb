@@ -3,12 +3,12 @@ class ApplicationController < Sinatra::Base
 
   get "/lists" do
     lists = List.all
-    lists.to_json
+    lists.to_json(only: [:id, :name])
   end
 
   get "/lists/:id" do
     list = List.find(params[:id])
-    list.to_json(include:{ tasks: { include: :list_id}})
+    list.to_json(include: :tasks)
   end
 
   post "/lists" do
@@ -22,4 +22,9 @@ class ApplicationController < Sinatra::Base
     list.to_json
   end
 
+  get "/tasks" do
+    tasks =Tasks.all
+    tasks.to_json
+  end
+  
 end
