@@ -22,9 +22,17 @@ class ApplicationController < Sinatra::Base
     list.to_json
   end
 
-  get "/tasks" do
-    tasks =Tasks.all
-    tasks.to_json
+  get "/lists/:id/tasks" do
+    list = List.find(params[:id])
+    list.tasks.to_json
   end
+
+  post "/tasks" do
+    task = Task.create(name: params[:name], 
+      completed: params[:completed],
+      list_id: params[:list_id])
+    task.to_json
+  end
+
   
 end
