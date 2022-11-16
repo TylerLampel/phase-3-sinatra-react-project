@@ -3,48 +3,61 @@ class ApplicationController < Sinatra::Base
 
   get "/lists" do
     lists = List.all
-    lists.to_json(only: [:id, :name])
+    lists.to_json
   end
 
-  get "/lists/:id" do
-    list = List.find(params[:id])
-    list.to_json(include: :tasks)
-  end
+  get "/lists/:list_id" do
+    find_list
+    @list.to_json(include: :tasks)
+end
 
   post "/lists" do
     list = List.create(name: params[:name])
     list.to_json
   end
 
-  delete "/lists/:id" do
-    list = List.find(params[:id])
-    list.destroy
-    list.to_json
-  end
-
-  get "/lists/:id/tasks" do
-    list = List.find(params[:id])
-    list.tasks.to_json
-  end
-
-  post "/tasks" do
-    task = Task.create(name: params[:name], 
+  post "/tasks/:list_id" do
+    task = Task.create(
+      name: params[:name], 
       completed: params[:completed],
-      list_id: params[:list_id])
-    task.to_json
+      list_id: params[:list_id]
+      )
+    find_list
+    @list.to_json(include: :tasks)
   end
 
-  delete "/tasks/:id" do
-    task = Task.find(params[:id])
+  delete "/lists/:list_id" do
+    find_list
+    @list.destroy
+    lists = List.all
+    lists.to_json
+  end
+
+  delete "/lists/:list_id/tasks/:task_id" do
+    task = Task.find(params[:task_id])
     task.destroy
-    task.to_json
+    find_list
+    @list.to_json(include: :tasks)
   end
 
-  patch "/tasks/:id" do
-    task= Task.find(params[:id])
-    task.update(name: params[:name])
-    task.to_json
+  patch "/lists/:list_id" do
+    find_list
+    @list.update(name: params[:name])
+    @list.to_json(include: :tasks)
   end
+
+  patch "/lists/:list_id/tasks/:task_id" do
+    task= Task.find(params[:task_id])
+    task.update(name: params[:name])
+    find_list
+    @list.to_json(include: :tasks)
+  end
+
+  private
+
+    def find_list
+      @list = List.find(params[:list_id])
+    end
 
   
 end
