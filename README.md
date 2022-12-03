@@ -4,9 +4,9 @@
 
 This is the backend for the List Creator app. In here you will find the models and controllers for the frontend.
 
-### Installation instructions
+### Installation Instructions
 
-Fork and clone this repository and then run bundle install to install all of the gems.
+Fork and clone this repository and then run bundle install to install all of the gems. Then run bundle exec rake db:migrate to create the migrations.Finally run bundle exec rake db:seed to plant all of the seed data.
 To stat the server run: $ bundle exec rake server
 
 ### Architecture and Models
