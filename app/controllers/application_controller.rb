@@ -5,6 +5,11 @@ class ApplicationController < Sinatra::Base
     all_lists
   end
 
+  get "/lists/:list_id" do
+    find_list
+    @list.to_json(include: :tasks)
+  end
+
   post "/lists" do
     list = List.create(name: params[:name])
     all_lists
